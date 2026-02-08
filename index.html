@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Cell Simulator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI-Powered 3D Cell Simulator</h1>
+            <p>Test cells with any chemical combination - AI predicts unseen conditions</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 3D Visualization Area -->
+            <div class="visualization-panel">
+                <div id="canvas-container"></div>
+                <div class="view-controls">
+                    <p>Drag to rotate • Scroll to zoom</p>
+                </div>
+            </div>
+
+            <!-- Control Panel (Right Side) -->
+            <div class="control-panel">
+                <h2>Environmental Controls</h2>
+
+                <!-- AI Mode Toggle -->
+                <div class="mode-selector">
+                    <label class="mode-option">
+                        <input type="radio" name="mode" value="simple" checked>
+                        <span>Simple Mode</span>
+                    </label>
+                    <label class="mode-option">
+                        <input type="radio" name="mode" value="ai">
+                        <span>AI Mode</span>
+                    </label>
+                </div>
+
+                <div class="control-group">
+                    <label for="nutrients">
+                        <span class="label-text">Nutrients</span>
+                        <span class="value-display" id="nutrients-value">50</span>
+                    </label>
+                    <input type="range" id="nutrients" min="0" max="100" value="50" step="1">
+                    <div class="range-info">
+                        <span>Optimal: 40-70</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="proteins">
+                        <span class="label-text">Proteins</span>
+                        <span class="value-display" id="proteins-value">50</span>
+                    </label>
+                    <input type="range" id="proteins" min="0" max="100" value="50" step="1">
+                    <div class="range-info">
+                        <span>Optimal: 30-60</span>
+                    </div>
+                </div>
+
+                <!-- Simple mode controls -->
+                <div id="simple-controls">
+                    <div class="control-group">
+                        <label for="chemicals">
+                            <span class="label-text">Toxic Chemicals</span>
+                            <span class="value-display" id="chemicals-value">0</span>
+                        </label>
+                        <input type="range" id="chemicals" min="0" max="100" value="0" step="1">
+                        <div class="range-info">
+                            <span>Safe: 0-10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI mode controls -->
+                <div id="ai-controls" style="display: none;">
+                    <div class="ai-section">
+                        <h3>Chemical Composition</h3>
+                        <p class="ai-hint">Mix any chemicals - AI will predict effects!</p>
+
+                        <div id="chemical-list"></div>
+
+                        <div class="add-chemical">
+                            <input type="text" id="chemical-name" placeholder="Enter chemical name..." list="known-chemicals">
+                            <datalist id="known-chemicals"></datalist>
+                            <input type="number" id="chemical-concentration" placeholder="Conc." min="0" max="100" value="50">
+                            <button id="add-chemical-btn" class="btn-small">Add</button>
+                        </div>
+
+                        <div class="quick-presets">
+                            <p><strong>Quick Presets:</strong></p>
+                            <button class="preset-btn" data-preset="toxic">Toxic Mix</button>
+                            <button class="preset-btn" data-preset="healthy">Healthy Mix</button>
+                            <button class="preset-btn" data-preset="oxidative">Oxidative Stress</button>
+                            <button class="preset-btn" data-preset="unknown">Unknown Chemicals</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="update-btn" class="btn btn-primary">Update Simulation</button>
+                    <button id="reset-btn" class="btn btn-secondary">Reset</button>
+                </div>
+
+                <div class="legend">
+                    <h3>Health Legend</h3>
+                    <div class="legend-item">
+                        <span class="color-box" style="background: #00ff00;"></span>
+                        <span>Thriving (>80%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="color-box" style="background: #ffff00;"></span>
+                        <span>Stressed (40-80%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="color-box" style="background: #ff8800;"></span>
+                        <span>Struggling (20-40%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="color-box" style="background: #ff0000;"></span>
+                        <span>Critical (<20%)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Width Stats Section at Bottom -->
+        <div class="stats-section">
+            <div class="stats-container">
+                <div class="info-panel">
+                    <h3>Cell Status</h3>
+                    <div id="cell-status"></div>
+                </div>
+
+                <!-- AI Analysis -->
+                <div id="ai-analysis" style="display: none;">
+                    <h3>AI Analysis</h3>
+                    <div id="ai-insights"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Main Application Script -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
